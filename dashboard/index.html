@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Risk Radar — token launch radar, risk-scored</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="dot" aria-hidden="true"></span><div><h1>Risk Radar</h1><p>Token launch radar, scored by risk first</p></div></div>
+  <nav><button data-view="board" class="navbtn active">Board</button><button data-view="live" class="navbtn">Already trading</button><button data-view="model" class="navbtn">The model</button></nav>
+</header>
+<main id="app">
+  <section id="view-board" class="view">
+    <div class="stats" id="stats"></div>
+    <p class="lede">Every pre-token protocol, ranked by <strong>risk-discounted implied value</strong>: size and momentum, cut down by how risky the farm is. A big protocol with a wild swing, a short track record and one chain lands below a smaller, steadier one. Say a protocol <em>records no token</em> — the snapshot is DefiLlama's record, not proof it has none.</p>
+    <div class="filters">
+      <label>Risk band <select id="f-band"><option value="">All bands</option><option>Low</option><option>Moderate</option><option>Elevated</option><option>High</option></select></label>
+      <label>Category <select id="f-cat"><option value="">All categories</option></select></label>
+      <label>Chain <select id="f-chain"><option value="">All chains</option></select></label>
+      <label>Sort <select id="f-sort"><option value="value">Implied value</option><option value="risk">Lowest risk</option><option value="tvl">TVL</option><option value="growth">7-day growth</option></select></label>
+      <label class="search">Search <input id="f-q" type="search" placeholder="protocol name"></label>
+    </div>
+    <p class="count" id="count"></p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>#</th><th>Protocol</th><th>Category</th><th>Chains</th><th>TVL</th><th>7d</th><th>Risk</th><th>Implied value</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table></div>
+  </section>
+  <section id="view-detail" class="view hidden">
+    <p><button class="linklike" id="back">← Back to board</button></p>
+    <div id="detail"></div>
+  </section>
+  <section id="view-live" class="view hidden">
+    <h2>Already trading — the market's own values</h2>
+    <p class="lede">These protocols record a token, so they are <strong>not ranked</strong> here. Their market caps are the market's values, not this model's. They are shown so a reader can tell a launch that already happened from one still to come.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Protocol</th><th>Category</th><th>Chains</th><th>TVL</th><th>Market cap</th><th>7d</th></tr></thead>
+      <tbody id="live-rows"></tbody>
+    </table></div>
+  </section>
+  <section id="view-model" class="view hidden">
+    <h2>The model, in full</h2>
+    <p class="lede">Everything below follows from the snapshot's own figures — TVL, 7-day change, age with no token, chain count and category. No protocol name is ever special-cased.</p>
+    <h3>Five risk factors, 0–100 each</h3>
+    <ul class="model-list">
+      <li><strong>Volatility</strong> — |7-day TVL change| over 60%. A swing either way is risk. No change reported: 55.</li>
+      <li><strong>Youth</strong> — under 90 days: 85; under 180: 70; under 365: 55; under 730: 35; older: 20. Unknown age: 70.</li>
+      <li><strong>Concentration</strong> — 1 chain: 80; 2: 60; 3: 45; 4–5: 30; 6 or more: 15.</li>
+      <li><strong>Category</strong> — Bridge 85, Derivatives 75, Liquid Staking / Restaking / Prediction 70, RWA 65, Yield 60, Lending / CDP 55, Dexs 50, Insurance 45, Stablecoins 40, other 60.</li>
+      <li><strong>Size</strong> — under $10M TVL: 85; under $25M: 70; under $50M: 55; under $100M: 40; under $500M: 25; under $2B: 15; larger: 10.</li>
+    </ul>
+    <p class="formula">risk = 0.25·volatility + 0.25·youth + 0.20·concentration + 0.15·category + 0.15·size</p>
+    <p class="formula">implied = TVL × 0.30 × growth × maturity × (1 − risk ÷ 100 × 0.55)</p>
+    <p>growth = 1 + clamp(7-day change, −40%, +120%) ÷ 100 × 0.5. maturity = 0.65 + min(age, 1095 days) ÷ 1095 × 0.35, unknown age counted as 365 days. Bands: Low under 30, Moderate 30–49, Elevated 50–69, High 70 and over. The board covers all 40 watchlist protocols plus every other rankable pre-token protocol below the $50M floor — 198 rows on this snapshot.</p>
+    <p class="note">Implied value is this entry's own claim about what a token would be worth if the protocol's record stayed as it is. It does not predict whether or when a token is issued.</p>
+  </section>
+</main>
+<footer><p id="foot"></p></footer>
+<script src="../data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
