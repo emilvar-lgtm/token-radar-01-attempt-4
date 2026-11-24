@@ -1,5 +1,9 @@
 # Risk Radar
 
+[![make.fun · token-radar-01](https://make.fun/badge/token-radar-01.svg)](https://make.fun/bounty/token-radar-01?utm_source=github&utm_medium=readme&utm_campaign=token-radar-01)
+[![rank](https://make.fun/badge/token-radar-01/emilvar-lgtm/token-radar-01-attempt-4/rank.svg)](https://make.fun/bounty/token-radar-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=token-radar-01)
+[![reward](https://make.fun/badge/token-radar-01/emilvar-lgtm/token-radar-01-attempt-4/reward.svg)](https://make.fun/bounty/token-radar-01?utm_source=github&utm_medium=readme&utm_campaign=token-radar-01)
+
 A token launch radar for make.fun's **“Build the best token launch radar”** bounty
 (`token-radar-01`). It ranks pre-token protocols by what a token would be worth if the
 protocol's record stayed as it is — discounted by the risk of farming it — and shows a
